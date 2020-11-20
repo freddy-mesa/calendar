@@ -1,0 +1,9 @@
+{
+  "name": "calendar",
+  "version": "1.0.0",
+  "scripts": {
+    "client": "cd calendar-app && yarn start",
+    "server": "cd calendar-server && yarn start",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+  }
+}

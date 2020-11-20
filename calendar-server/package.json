@@ -1,0 +1,14 @@
+{
+  "name": "calendar-server",
+  "version": "0.1.0",
+  "scripts": {
+    "server": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.17.0"
+  },
+  "devDependencies": {
+    "concurrently": "^4.0.1"
+  }
+}
