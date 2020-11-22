@@ -27,10 +27,12 @@ const YearGrid = (date, setYear) => {
     <table>
       <thead>
         <tr>
-          <th colSpan="4">Select a Year</th>
+          <th colSpan="3">Select a Year</th>
         </tr>
       </thead>
-      <tbody>{yearList}</tbody>
+      <tbody>
+        {yearList}
+      </tbody>
     </table>
   );
 };
@@ -45,19 +47,25 @@ const CalendarChangeYear = (props) => {
   const date = moment(props.date)
 
   const onChangeYear = (year) => {
-    const newDate = moment(date.set('y', year)).toDate()
-    setShowYearDialog(!showYearDialog)
+    const newDate = moment(date.set('y',year)).toDate()
+    setShowYearDialog(false)
     props.onChangeYear(newDate)
+  }
+  const onPrevious = () => {
+    onChangeYear(moment(date.subtract(1,'y')).year())
+  }
+  const onNext = () => {
+    onChangeYear(moment(date.add(1,'y')).year())
   }
 
   return (
     <div>
       <h2>
-        <span onClick={onClickTitle}>
-          Year: {date.format("YYYY")}
-        </span>
-        {showYearDialog && YearGrid(date, onChangeYear)}
+        <input type="button" value="<<" onClick={onPrevious} />
+        Year: <a href="/#" onClick={onClickTitle}>{date.format("YYYY")}</a>
+        <input type="button" value=">>" onClick={onNext} />
       </h2>
+      {showYearDialog && YearGrid(date, onChangeYear)}
     </div>
   )
 }

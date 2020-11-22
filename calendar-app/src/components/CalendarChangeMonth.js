@@ -14,7 +14,7 @@ const MonthGrid = (date, setYearMonth) => {
     const year = currentMonth.year()
     months.push(
       <td
-        key={currentMonth.format('YYMM')}
+        key={currentMonth.format('YYYYMM')}
         className="calendar-month"
         onClick={e => { setYearMonth(year,month);}} >
         <span>{currentMonth.format('YYYY MMMM')}</span>
@@ -28,7 +28,7 @@ const MonthGrid = (date, setYearMonth) => {
     <table>
       <thead>
         <tr>
-          <th colSpan="4">Select a Month</th>
+          <th colSpan="3">Select a Month</th>
         </tr>
       </thead>
       <tbody>{monthList}</tbody>
@@ -47,18 +47,26 @@ const CalendarChangeMonth = (props) => {
 
   const onChangeMonth = (year,month) => {
     const newDate = moment(date.set('Y', year).set('M', month)).toDate()
-    setShowMonthGrid(!showMonthGrid)
+    setShowMonthGrid(false)
     props.onChangeMonth(newDate)
+  }
+  const onPrevious = () => {
+    const newDate = moment(date.subtract(1,'M'))
+    onChangeMonth(newDate.year(),newDate.month())
+  }
+  const onNext = () => {
+    const newDate = moment(date.add(1,'M'))
+    onChangeMonth(newDate.year(), newDate.month())
   }
 
   return (
     <div>
       <h2>
-        <span onClick={onClickTitle}>
-          Month: {date.format("MMMM")}
-        </span>
-        {showMonthGrid && MonthGrid(date, onChangeMonth)}
+        <input type="button" value="<<" onClick={onPrevious} />
+        Month: <a href="/#" onClick={onClickTitle}>{date.format("MMMM")} </a>
+        <input type="button" value=">>" onClick={onNext} />
       </h2>
+      {showMonthGrid && MonthGrid(date, onChangeMonth)}
     </div>
   )
 }

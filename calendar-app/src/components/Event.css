@@ -1,0 +1,9 @@
+.grid-container-event {
+  display: grid;
+  grid-template-columns: 1;
+}
+
+.grid-container-event-buttons {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
