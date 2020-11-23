@@ -1,6 +1,6 @@
 const db = [
   {
-    "id": "da0d3c26-5f6b-49eb-9807-ca5804a8dfdd",
+    "id": "922eb2e9-3cb0-405b-b992-a9e75ab91ffa",
     "date": "2020-10-31T22:04:32.619Z",
     "title": "Prueba 1"
   },
@@ -15,12 +15,12 @@ const db = [
     "title": "Prueba 3"
   },
   {
-    "id": "db598639-6a18-4a6c-8052-03f49517aafc",
+    "id": "cd1b9b3f-1167-4b50-944f-81f4c24b2f67",
     "date": "2020-11-20T22:04:32.619Z",
     "title": "Prueba 4"
   },
   {
-    "id": "db598639-6a18-4a6c-8052-03f49517aafc",
+    "id": "83d56904-a72e-4266-a4b3-8b45689e47d8",
     "date": "2020-12-02T22:04:32.619Z",
     "title": "Prueba 5"
   }
@@ -38,19 +38,24 @@ const list = () => {
 
 const post = (data) => {
   db.push(data)
+  return data
 }
 
 const put = (data) => {
-  db.forEach(x => {
-    if (x.id === data.id){
-      x.title = data.title
-      x.date = date.date
-    }
-  })
+  const index =  db.findIndex(x => x.id === data.id)
+  if (index >= 0) {
+    db[index] = data
+  }
+  return data
 }
 
 const remove = (id) => {
-  db = db.filter(x => x.id !== id)
+  const index = db.findIndex(x => x.id === id)
+  if (index >= 0) {
+    console.log(id)
+    db.splice(index, 1);
+  }
+  return id
 }
 
 module.exports = {
@@ -58,5 +63,5 @@ module.exports = {
   list,
   post,
   put,
-  remove
+  remove 
 }

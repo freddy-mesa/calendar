@@ -1,7 +1,7 @@
 import './CalendarGrid.css';
 import moment from 'moment'
 
-import convertToTable from '../utils/convertToTable';
+import convertToTable from '../../utils/convertToTable';
 
 const CalendarGrid = (props) => {
 

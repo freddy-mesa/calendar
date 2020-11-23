@@ -8,18 +8,19 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
-  //res.json(events.post(req.params))
-  console.log(req.params)
   console.log(req.body)
-  res.send("id: "+ req.body.id)
+  res.json(events.post(req.body))
 })
 
 router.put('/', (req, res, next) => {
-  res.json(events.put(req.params))
+  console.log(req.body)
+  res.json(events.put(req.body))
 })
 
 router.delete('/', (req, res, next) => {
-  res.json(events.delete(req.params.id))
+  console.log(req.params)
+  console.log(req.body)
+  res.json(events.remove(req.body.id))
 })
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors');
+var bodyParser = require('body-parser')
 
 const app = express()
 const port = 4000
@@ -17,5 +18,11 @@ app.listen(port, () => {
 app.use(cors({
   origin: 'http://localhost:3000'
 }));
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 app.use("/events", eventApi);

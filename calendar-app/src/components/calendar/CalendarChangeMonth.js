@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import moment from 'moment'
 
-import convertToTable from '../utils/convertToTable';
+import convertToTable from '../../utils/convertToTable';
 
 const MonthGrid = (date, setYearMonth) => {
   const months = []
