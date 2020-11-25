@@ -1,6 +1,8 @@
 import {useState} from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment'
 
+import * as actions from "../../store/actions";
 import convertToTable from '../../utils/convertToTable';
 
 const MonthGrid = (date, setYearMonth) => {
@@ -22,8 +24,6 @@ const MonthGrid = (date, setYearMonth) => {
     )
   }
 
-  const monthList = convertToTable(months, 3)
-
   return (
     <table>
       <thead>
@@ -31,24 +31,24 @@ const MonthGrid = (date, setYearMonth) => {
           <th colSpan="3">Select a Month</th>
         </tr>
       </thead>
-      <tbody>{monthList}</tbody>
+      <tbody>{convertToTable(months, 3)}</tbody>
     </table>
   );
 };
 
-const CalendarChangeMonth = (props) => { 
+const CalendarChangeMonth = () => { 
+
+  const dispatch = useDispatch()
+  const date = moment(useSelector(state => state.date))
   const [showMonthGrid, setShowMonthGrid] = useState(false)
   
-  const onClickTitle = (e) => {
+  const onClickTitle = () => {
     setShowMonthGrid(!showMonthGrid)
   }
-
-  const date = moment(props.date)
-
   const onChangeMonth = (year,month) => {
     const newDate = moment(date.set('Y', year).set('M', month)).toDate()
     setShowMonthGrid(false)
-    props.onChangeMonth(newDate)
+    dispatch(actions.calendarDateChanged(newDate))
   }
   const onPrevious = () => {
     const newDate = moment(date.subtract(1,'M'))

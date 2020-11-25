@@ -1,4 +1,5 @@
 import axios from "axios";
+import { v4 as uuid } from "uuid";
 
 const useEventApi = (url) => {
   const get = async(id) => {
@@ -45,12 +46,29 @@ const useEventApi = (url) => {
     }
   }
 
+  const onSave = async(event) => {
+    if (event.id === "") {
+      event.id = uuid()
+      const data = await insert(event)
+      console.log("Inserted: "+JSON.stringify(data))
+    }
+    else {
+      const data = await update(event)
+      console.log("Updated: "+JSON.stringify(data))
+    }
+    
+  }
+
+  const onDelete = async(selectedEvent) => {
+    const data = await remove(selectedEvent.id)
+    console.log("Deleted: "+JSON.stringify(data))
+  } 
+
   return {
     get,
     list,
-    insert,
-    update,
-    remove
+    onSave,
+    onDelete
   }
 }
 

@@ -1,19 +1,30 @@
 import './CalendarGrid.css';
+
+import { useSelector,useDispatch } from 'react-redux'
 import moment from 'moment'
 
+import * as actions from "../../store/actions";
 import convertToTable from '../../utils/convertToTable';
 
 const CalendarGrid = (props) => {
 
+  const dispatch = useDispatch()
+  const date = moment(useSelector(state => state.date))
+  const events = useSelector(state => state.eventList)
+
+  const onClick = (event) => {
+    dispatch(actions.eventChanged(event,"selected"))
+  }
+
   const calendarDays = [];
 
-  const firstDayOfMonth = moment(props.date).startOf("month") 
+  const firstDayOfMonth = moment(date).startOf("month") 
   const previousOffSet = firstDayOfMonth.weekday();
   if (previousOffSet > 0) {
     var firstDayWeek = moment(firstDayOfMonth).subtract(previousOffSet, "days")
     for (const previousDate = firstDayWeek; previousDate.isBefore(firstDayOfMonth); moment(previousDate.add(1, 'days'))) {
       
-      const previousEvents = props.events.filter(x => {
+      const previousEvents = events.filter(x => {
         var eventDate = new Date(x.date) 
         var calendarDate = previousDate.toDate()
         return eventDate.getFullYear() === calendarDate.getFullYear() 
@@ -22,7 +33,7 @@ const CalendarGrid = (props) => {
       }).map(x => {
         return (
           <div key={x.id}>
-            <a href="/#" onClick={_ => props.onClickEvent(x)}> 
+            <a href="/#" onClick={_ => onClick(x)}> 
               {x.title} 
             </a>
           </div>
@@ -38,10 +49,10 @@ const CalendarGrid = (props) => {
     } 
   }
 
-  const lastDayOfMonth = moment(props.date).endOf("month")
+  const lastDayOfMonth = moment(date).endOf("month")
   for (const currentDate = firstDayOfMonth; currentDate.isSameOrBefore(lastDayOfMonth); moment(currentDate.add(1, 'days'))) {
     
-    const currentEvents = props.events.filter(x => {
+    const currentEvents = events.filter(x => {
       var eventDate = new Date(x.date) 
       var calendarDate = currentDate.toDate()
       return eventDate.getFullYear() === calendarDate.getFullYear() 
@@ -50,7 +61,7 @@ const CalendarGrid = (props) => {
     }).map(x => {
       return (
         <div key={x.id}>
-          <a href="/#" onClick={_ => props.onClickEvent(x)}> 
+          <a href="/#" onClick={_ => onClick(x)}> 
             {x.title} 
           </a>
         </div>
@@ -72,7 +83,7 @@ const CalendarGrid = (props) => {
     var lastWeekDayOfNextMonth = moment(lastDayOfMonth).add(nextOffSet, "days")
     for (const nextDate = firstDayOfNextMonth; nextDate.isSameOrBefore(lastWeekDayOfNextMonth); moment(nextDate.add(1, 'days'))) {
       
-      const nextEvents = props.events.filter(x => {
+      const nextEvents = events.filter(x => {
         var eventDate = new Date(x.date) 
         var calendarDate = nextDate.toDate()
         return eventDate.getFullYear() === calendarDate.getFullYear() 
@@ -81,7 +92,7 @@ const CalendarGrid = (props) => {
       }).map(x => {
         return (
           <div key={x.id}>
-            <a href="/#" onClick={_ => props.onClickEvent(x)}> 
+            <a href="/#" onClick={_ => onClick(x)}> 
               {x.title} 
             </a>
           </div>

@@ -1,9 +1,36 @@
-import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from 'react-redux'
 
+import * as actions from "../../store/actions";
 import EventForm from './EventForm'
 
 import './Event.css'
 
+const EventView = () => {
+
+  const dispatch = useDispatch()
+  const event = useSelector(state => state.event)
+
+  const onSubmit = (eventSubmit) => {
+    dispatch(actions.eventChanged(eventSubmit,"save"))
+  }
+  const onNew = () => {
+    dispatch(actions.eventChanged_New())
+  }
+  const onDelete = (eventDelete) => {
+    dispatch(actions.eventChanged(eventDelete,"delete"))
+  }
+
+  return (
+    <EventForm 
+      event={event}
+      onSubmit={onSubmit}
+      onNew={onNew}
+      onDelete={onDelete}
+    />
+  )
+}
+
+/*
 const EventView = (props) => {
 
   const [event,setEvent] = useState({}) 
@@ -52,5 +79,6 @@ const EventView = (props) => {
     />
   )
 }
+*/
 
 export default EventView;

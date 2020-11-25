@@ -1,6 +1,8 @@
-import {useState} from 'react'
+import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment'
 
+import * as actions from "../../store/actions";
 import convertToTable from '../../utils/convertToTable';
 
 const YearGrid = (date, setYear) => {
@@ -21,8 +23,6 @@ const YearGrid = (date, setYear) => {
     )
   }
 
-  const yearList = convertToTable(years, 3)
-
   return (
     <table>
       <thead>
@@ -31,25 +31,26 @@ const YearGrid = (date, setYear) => {
         </tr>
       </thead>
       <tbody>
-        {yearList}
+        {convertToTable(years, 3)}
       </tbody>
     </table>
   );
 };
 
-const CalendarChangeYear = (props) => { 
+const CalendarChangeYear = () => { 
+  
+  const dispatch = useDispatch()
+  const date = moment(useSelector(state => state.date))
   const [showYearDialog, setShowYearDialog] = useState(false)
   
-  const onClickTitle = (e) => {
+  const onClickTitle = () => {
     setShowYearDialog(!showYearDialog)
   }
-
-  const date = moment(props.date)
-
   const onChangeYear = (year) => {
-    const newDate = moment(date.set('y',year)).toDate()
+    debugger
     setShowYearDialog(false)
-    props.onChangeYear(newDate)
+    const newDate = moment(date.set('y',year)).toDate()
+    dispatch(actions.calendarDateChanged(newDate))
   }
   const onPrevious = () => {
     onChangeYear(moment(date.subtract(1,'y')).year())
