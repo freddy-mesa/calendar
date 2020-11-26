@@ -7,7 +7,6 @@ import convertToTable from '../../utils/convertToTable';
 
 const YearGrid = (date, setYear) => {
   const years = []
-  
   const yearStart = moment(date).subtract(4,'y')
   const yearEnd = moment(date).add(4,'y')
 

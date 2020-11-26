@@ -15,6 +15,7 @@ const CalendarGrid = () => {
   const onClick = (event) => {
     dispatch(actions.eventChanged(event,"selected"))
   }
+  const isWeekend = (date) => (date.getDay() === 0 || date.getDay() === 6)
 
   const calendarDays = [];
 
@@ -41,9 +42,11 @@ const CalendarGrid = () => {
       })
       
       calendarDays.push(
-        <td key={previousDate.format("YYYY-MM-DD")}> 
-          <div className="calendar-day empty">{previousDate.date()}</div>
-          {previousEvents}
+        <td 
+          className={`empty ${isWeekend(previousDate.toDate()) ? "weekend" : ""}`}
+          key={previousDate.format("YYYY-MM-DD")}> 
+            <div>{previousDate.date()}</div>
+            {previousEvents}
         </td>
       );
     } 
@@ -69,9 +72,11 @@ const CalendarGrid = () => {
     })
     
     calendarDays.push(
-      <td key={currentDate.format("YYYY-MM-DD")}> 
-        <div className="calendar-day">{currentDate.date()}</div>
-        {currentEvents}
+      <td 
+        className={`${isWeekend(currentDate.toDate()) ? "weekend" : ""}`} 
+        key={currentDate.format("YYYY-MM-DD")}> 
+          <div>{currentDate.date()}</div>
+          {currentEvents}
       </td>
     );
   }
@@ -100,9 +105,11 @@ const CalendarGrid = () => {
       })
 
       calendarDays.push(
-        <td key={nextDate.format("YYYY-MM-DD")}> 
-          <div className="calendar-day empty">{nextDate.date()}</div>
-          {nextEvents}
+        <td 
+          className={`empty ${isWeekend(nextDate.toDate()) ? "weekend" : ""}`}
+          key={nextDate.format("YYYY-MM-DD")}> 
+            <div>{nextDate.date()}</div>
+            {nextEvents}
         </td>
       );
     } 

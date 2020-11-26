@@ -37,7 +37,6 @@ const EventView = () => {
     setTitle(valueChanged)
   }
   const onChangeDate = (valueChanged) => {
-    console.log(valueChanged);
     setDate(new Date(valueChanged))
   }
   

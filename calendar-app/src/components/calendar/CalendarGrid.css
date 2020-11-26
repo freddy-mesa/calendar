@@ -15,6 +15,14 @@ td {
   text-align: left;
 }
 
+td.weekend {
+  background-color: rgba(189, 189, 189, 0.829);
+}
+
+.weekend {
+  color: white;
+}
+
 .empty {
-  color: cadetblue;
+  color: darkslateblue
 }
