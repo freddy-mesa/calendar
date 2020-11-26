@@ -5,37 +5,6 @@ import moment from 'moment'
 import * as actions from "../../store/actions";
 import convertToTable from '../../utils/convertToTable';
 
-const YearGrid = (date, setYear) => {
-  const years = []
-  const yearStart = moment(date).subtract(4,'y')
-  const yearEnd = moment(date).add(4,'y')
-
-  for (var currentYear = yearStart; yearEnd.year() >= currentYear.year(); moment(currentYear.add(1,'y'))) {
-    const dateYear = currentYear.year()
-    years.push(
-      <td
-        key={currentYear.format('YYYY')}
-        className="calendar-year"
-        onClick={e => { setYear(dateYear);}} >
-        <span>{currentYear.format('YYYY')}</span>
-      </td>
-    )
-  }
-
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th colSpan="3">Select a Year</th>
-        </tr>
-      </thead>
-      <tbody>
-        {convertToTable(years, 3)}
-      </tbody>
-    </table>
-  );
-};
-
 const CalendarChangeYear = () => { 
   
   const dispatch = useDispatch()
@@ -57,6 +26,37 @@ const CalendarChangeYear = () => {
   const onNext = () => {
     onChangeYear(moment(date.add(1,'y')).year())
   }
+
+  const YearGrid = (date, setYear) => {
+    const years = []
+    const yearStart = moment(date).subtract(4,'y')
+    const yearEnd = moment(date).add(4,'y')
+  
+    for (var currentYear = yearStart; yearEnd.year() >= currentYear.year(); moment(currentYear.add(1,'y'))) {
+      const dateYear = currentYear.year()
+      years.push(
+        <td
+          key={currentYear.format('YYYY')}
+          className="calendar-year"
+          onClick={e => { setYear(dateYear);}} >
+          <span>{currentYear.format('YYYY')}</span>
+        </td>
+      )
+    }
+  
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th colSpan="3">Select a Year</th>
+          </tr>
+        </thead>
+        <tbody>
+          {convertToTable(years, 3)}
+        </tbody>
+      </table>
+    );
+  };
 
   return (
     <div>

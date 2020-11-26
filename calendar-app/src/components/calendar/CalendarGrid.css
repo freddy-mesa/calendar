@@ -9,6 +9,10 @@ th {
   text-align: center;
 }
 
+th.week-day {
+  background-color: darkcyan;
+}
+
 td {
   border: 1px solid #999;
   padding: 3rem;

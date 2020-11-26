@@ -7,7 +7,9 @@ import { EVENT_LIST } from "./graphql/query"
 import { EVENT_CREATE, EVENT_UPDATE, EVENT_DELETE } from "./graphql/mutation"
 import * as actions from "./store/actions";
 
-import CalendarView from './components/calendar/CalendarView'
+import CalendarChangeYear from './components/calendar/CalendarChangeYear'
+import CalendarChangeMonth from './components/calendar/CalendarChangeMonth'
+import CalendarGrid from './components/calendar/CalendarGrid'
 import EventView from './components/events/EventView'
 
 import './App.css';
@@ -67,10 +69,18 @@ const App = () => {
         <h1> Calendar </h1>
       </div>
       <div className="main">
-        <CalendarView />
+        <div>
+          <CalendarChangeYear />
+          <CalendarChangeMonth />
+        </div>
       </div>
       <div className="right"> 
         <EventView />
+      </div>
+      <div className="footer">
+        <br />
+        <CalendarGrid />
+        <br />
       </div>
       <br />
     </div>

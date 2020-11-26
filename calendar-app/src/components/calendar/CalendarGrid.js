@@ -12,10 +12,26 @@ const CalendarGrid = () => {
   const date = moment(useSelector(state => state.date))
   const events = useSelector(state => state.eventList)
 
-  const onClick = (event) => {
-    dispatch(actions.eventChanged(event,"selected"))
-  }
+  const onClick = (event) => (dispatch(actions.eventChanged(event,"selected")))
   const isWeekend = (date) => (date.getDay() === 0 || date.getDay() === 6)
+
+  const getEvents = (date) => {
+    return events.filter(x => {
+      var eventDate = new Date(x.date) 
+      return eventDate.getFullYear() === date.getFullYear() 
+        && eventDate.getMonth() === date.getMonth()
+        && eventDate.getDate() === date.getDate()
+    }).map(x => {
+      return (
+        <div className="event"
+          key={x.id}>
+          <a href="/#" onClick={e => onClick(x)}> 
+            {x.title} 
+          </a>
+        </div>
+      )
+    })
+  } 
 
   const calendarDays = [];
 
@@ -23,60 +39,26 @@ const CalendarGrid = () => {
   const previousOffSet = firstDayOfMonth.weekday();
   if (previousOffSet > 0) {
     var firstDayWeek = moment(firstDayOfMonth).subtract(previousOffSet, "days")
-    for (const previousDate = firstDayWeek; previousDate.isBefore(firstDayOfMonth); moment(previousDate.add(1, 'days'))) {
-      
-      const previousEvents = events.filter(x => {
-        var eventDate = new Date(x.date) 
-        var calendarDate = previousDate.toDate()
-        return eventDate.getFullYear() === calendarDate.getFullYear() 
-          && eventDate.getMonth() === calendarDate.getMonth()
-          && eventDate.getDate() === calendarDate.getDate()
-      }).map(x => {
-        return (
-          <div key={x.id}>
-            <a href="/#" onClick={_ => onClick(x)}> 
-              {x.title} 
-            </a>
-          </div>
-        )
-      })
-      
+    for (const previousDate = firstDayWeek; previousDate.isBefore(firstDayOfMonth); moment(previousDate.add(1, 'days'))) {      
       calendarDays.push(
         <td 
-          className={`empty ${isWeekend(previousDate.toDate()) ? "weekend" : ""}`}
+          className={`calendar-day ${isWeekend(previousDate.toDate()) ? "weekend" : ""}`}
           key={previousDate.format("YYYY-MM-DD")}> 
-            <div>{previousDate.date()}</div>
-            {previousEvents}
+            <div className="calendar-date"> {previousDate.date()}</div>
+            {getEvents(previousDate.toDate())}           
         </td>
       );
     } 
   }
 
   const lastDayOfMonth = moment(date).endOf("month")
-  for (const currentDate = firstDayOfMonth; currentDate.isSameOrBefore(lastDayOfMonth); moment(currentDate.add(1, 'days'))) {
-    
-    const currentEvents = events.filter(x => {
-      var eventDate = new Date(x.date) 
-      var calendarDate = currentDate.toDate()
-      return eventDate.getFullYear() === calendarDate.getFullYear() 
-        && eventDate.getMonth() === calendarDate.getMonth()
-        && eventDate.getDate() === calendarDate.getDate()
-    }).map(x => {
-      return (
-        <div key={x.id}>
-          <a href="/#" onClick={_ => onClick(x)}> 
-            {x.title} 
-          </a>
-        </div>
-      )
-    })
-    
+  for (const currentDate = firstDayOfMonth; currentDate.isSameOrBefore(lastDayOfMonth); moment(currentDate.add(1, 'days'))) {    
     calendarDays.push(
       <td 
         className={`${isWeekend(currentDate.toDate()) ? "weekend" : ""}`} 
         key={currentDate.format("YYYY-MM-DD")}> 
-          <div>{currentDate.date()}</div>
-          {currentEvents}
+          <div className="calendar-day">{currentDate.date()}</div>
+          {getEvents(currentDate.toDate())}
       </td>
     );
   }
@@ -87,29 +69,12 @@ const CalendarGrid = () => {
     var firstDayOfNextMonth = moment(lastDayOfMonth).add(1, "days")
     var lastWeekDayOfNextMonth = moment(lastDayOfMonth).add(nextOffSet, "days")
     for (const nextDate = firstDayOfNextMonth; nextDate.isSameOrBefore(lastWeekDayOfNextMonth); moment(nextDate.add(1, 'days'))) {
-      
-      const nextEvents = events.filter(x => {
-        var eventDate = new Date(x.date) 
-        var calendarDate = nextDate.toDate()
-        return eventDate.getFullYear() === calendarDate.getFullYear() 
-          && eventDate.getMonth() === calendarDate.getMonth()
-          && eventDate.getDate() === calendarDate.getDate()
-      }).map(x => {
-        return (
-          <div key={x.id}>
-            <a href="/#" onClick={_ => onClick(x)}> 
-              {x.title} 
-            </a>
-          </div>
-        )
-      })
-
       calendarDays.push(
         <td 
-          className={`empty ${isWeekend(nextDate.toDate()) ? "weekend" : ""}`}
+          className={`${isWeekend(nextDate.toDate()) ? "weekend" : ""}`}
           key={nextDate.format("YYYY-MM-DD")}> 
-            <div>{nextDate.date()}</div>
-            {nextEvents}
+            <div className="calendar-day empty">{nextDate.date()}</div>
+            {getEvents(nextDate.toDate())}
         </td>
       );
     } 

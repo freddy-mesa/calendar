@@ -32,12 +32,11 @@ const EventView = () => {
   }, [event]);
 
   const disabledBtnDelete = () => crud === "new"
-
   const onChangeTitle = (valueChanged) => {
     setTitle(valueChanged)
   }
   const onChangeDate = (valueChanged) => {
-    setDate(new Date(valueChanged))
+    setDate(new Date(valueChanged+'T00:00:00'))
   }
   
   const onSubmit = (e) => {
