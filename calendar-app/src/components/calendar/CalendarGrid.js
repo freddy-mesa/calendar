@@ -6,7 +6,7 @@ import moment from 'moment'
 import * as actions from "../../store/actions";
 import convertToTable from '../../utils/convertToTable';
 
-const CalendarGrid = (props) => {
+const CalendarGrid = () => {
 
   const dispatch = useDispatch()
   const date = moment(useSelector(state => state.date))

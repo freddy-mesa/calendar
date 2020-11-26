@@ -1,15 +1,18 @@
+//Express
 const express = require('express')
 const cors = require('cors');
-var bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
+
+//Rest Endpoint
+const eventApi = require('./api/EventApi')
+
+//GraphQL
+const { graphqlHTTP } = require('express-graphql');
+const gqlSchema = require('./graphql/schema')
+const gqlResolver = require('./graphql/resolver')
 
 const app = express()
 const port = 4000
-
-const eventApi = require('./api/events/EventApi')
-
-app.get('/', (req, res) => {
-  res.send('Up && Running')
-})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
@@ -25,4 +28,15 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+//Rest Endpoint
+app.get('/', (req, res) => {
+  res.send('Up && Running')
+})
 app.use("/events", eventApi);
+
+//GraphQL Endpoint
+app.use('/graphql', graphqlHTTP({
+  schema: gqlSchema,
+  rootValue: gqlResolver,
+  graphiql: true,
+}));

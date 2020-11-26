@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux'
+import moment from 'moment'
 
 import * as actions from "../../store/actions";
-import EventForm from './EventForm'
 
 import './Event.css'
 
@@ -9,24 +10,68 @@ const EventView = () => {
 
   const dispatch = useDispatch()
   const event = useSelector(state => state.event)
+  const crud = useSelector(state => state.crud)
 
-  const onSubmit = (eventSubmit) => {
-    dispatch(actions.eventChanged(eventSubmit,"save"))
+  const [id,setId] = useState("")
+  const [title,setTitle] = useState("")
+  const [date,setDate] = useState(new Date())
+
+  const getEvent = () => ({"id": id,"title": title,"date": date})
+
+  useEffect(() => {
+    if (event) {
+      setId(event.id)
+      setTitle(event.title)
+      setDate(event.date)
+    }
+    else {
+      setId("")
+      setTitle("")
+      setDate(new Date())
+    }
+  }, [event]);
+
+  const disabledBtnDelete = () => crud === "new"
+
+  const onChangeTitle = (valueChanged) => {
+    setTitle(valueChanged)
+  }
+  const onChangeDate = (valueChanged) => {
+    console.log(valueChanged);
+    setDate(new Date(valueChanged))
+  }
+  
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(actions.eventChanged(getEvent(),"save"))
+  }
+  const onDelete = (e) => {
+    e.preventDefault();
+    dispatch(actions.eventChanged(getEvent(),"delete"))
   }
   const onNew = () => {
     dispatch(actions.eventChanged_New())
   }
-  const onDelete = (eventDelete) => {
-    dispatch(actions.eventChanged(eventDelete,"delete"))
-  }
 
   return (
-    <EventForm 
-      event={event}
-      onSubmit={onSubmit}
-      onNew={onNew}
-      onDelete={onDelete}
-    />
+    <div>
+      <h2> Event </h2>
+      <form className="grid-container-event">
+        <label>
+          Title:
+          <input type="text" onChange={e => onChangeTitle(e.target.value)} value={title} />
+        </label>
+        <label>
+          Date:
+          <input type="date" onChange={e => onChangeDate(e.target.value)} value={moment(date).format("YYYY-MM-DD")} />
+        </label>
+        <div className="grid-container-event-buttons">
+          <input type="button" value="Submit" onClick={onSubmit} />
+          <input type="button" value="New Event" onClick={onNew} />
+          <input type="button" value="Delete" disabled={disabledBtnDelete()} onClick={onDelete} />
+        </div>
+      </form>
+    </div>
   )
 }
 

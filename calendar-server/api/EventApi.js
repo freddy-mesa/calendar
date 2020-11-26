@@ -1,26 +1,26 @@
 const express = require('express')
 const router = express.Router();
 
-const events = require("./Event")
+const model = require("../data/Event")
 
 router.get('/', (req, res, next) => {
-  res.json(events.list())
+  res.json(model.list())
 })
 
 router.post('/', (req, res, next) => {
   console.log(req.body)
-  res.json(events.post(req.body))
+  res.json(model.post(req.body))
 })
 
 router.put('/', (req, res, next) => {
   console.log(req.body)
-  res.json(events.put(req.body))
+  res.json(model.put(req.body))
 })
 
 router.delete('/', (req, res, next) => {
   console.log(req.params)
   console.log(req.body)
-  res.json(events.remove(req.body.id))
+  res.json(model.remove(req.body.id))
 })
 
 module.exports = router;

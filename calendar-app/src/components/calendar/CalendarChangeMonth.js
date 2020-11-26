@@ -7,7 +7,6 @@ import convertToTable from '../../utils/convertToTable';
 
 const MonthGrid = (date, setYearMonth) => {
   const months = []
-  
   const monthStart = moment(date).subtract(4,'M')
   const monthEnd = moment(date).add(4,'M')
 

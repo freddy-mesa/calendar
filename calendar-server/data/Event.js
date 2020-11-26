@@ -32,9 +32,7 @@ const get = (id) => {
     .find(x => x.id === id)
 }
 
-const list = () => {
-  return db;
-}
+const list = () => db;
 
 const post = (data) => {
   db.push(data)
@@ -52,7 +50,6 @@ const put = (data) => {
 const remove = (id) => {
   const index = db.findIndex(x => x.id === id)
   if (index >= 0) {
-    console.log(id)
     db.splice(index, 1);
   }
   return id
