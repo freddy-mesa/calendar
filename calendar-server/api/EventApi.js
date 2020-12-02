@@ -1,26 +1,42 @@
 const express = require('express')
 const router = express.Router();
 
-const model = require("../data/Event")
+const model = require("../data/db.event")
 
-router.get('/', (req, res, next) => {
-  res.json(model.list())
+router.get('/', async(req, res) => {
+  try {
+    const response = await model.list()
+    res.json(response)
+  } catch (error) {
+    console.error(error)
+  }
 })
 
-router.post('/', (req, res, next) => {
-  console.log(req.body)
-  res.json(model.post(req.body))
+router.post('/', async(req, res) => {
+  try {
+    const response = await model.post(req.body)
+    res.json(response)
+  } catch (error) {
+    console.error(error)
+  }
 })
 
-router.put('/', (req, res, next) => {
-  console.log(req.body)
-  res.json(model.put(req.body))
+router.put('/', async(req, res) => {
+  try {
+    const response = await model.put(req.body)
+    res.json(response)
+  } catch (error) {
+    console.error(error)
+  }
 })
 
-router.delete('/', (req, res, next) => {
-  console.log(req.params)
-  console.log(req.body)
-  res.json(model.remove(req.body.id))
+router.delete('/', async(req, res) => {
+  try {
+    const response = await model.remove(req.body.id)
+    res.json(response)
+  } catch (error) {
+    console.error(error)
+  }
 })
 
 module.exports = router;

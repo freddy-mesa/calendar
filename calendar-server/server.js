@@ -11,6 +11,9 @@ const { graphqlHTTP } = require('express-graphql');
 const gqlSchema = require('./graphql/schema')
 const gqlResolver = require('./graphql/resolver')
 
+//MongoDB
+const db = require("./data");
+
 const app = express()
 const port = 4000
 
@@ -40,3 +43,16 @@ app.use('/graphql', graphqlHTTP({
   rootValue: gqlResolver,
   graphiql: true,
 }));
+
+db.mongoose
+  .connect(db.url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Connected to the database!");
+  })
+  .catch(err => {
+    console.log("Cannot connect to the database!", err);
+    process.exit();
+  });

@@ -1,7 +1,6 @@
 import { useState,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery, useMutation } from '@apollo/client';
-import { v4 as uuid } from "uuid";
 
 import { EVENT_LIST } from "./graphql/query"
 import { EVENT_CREATE, EVENT_UPDATE, EVENT_DELETE } from "./graphql/mutation"
@@ -47,7 +46,6 @@ const App = () => {
   useEffect(() => {
     if (crud === "save") {
       if (event.id === ""){
-        event.id = uuid()
         createEvent({variables: {data : { ...event }}})
       }
       else {
@@ -80,7 +78,7 @@ const App = () => {
       <div className="footer">
         <br />
         <CalendarGrid />
-        <br />
+        <br />cd
       </div>
       <br />
     </div>
